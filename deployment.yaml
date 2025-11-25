@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: students-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: students-api
+  template:
+    metadata:
+      labels:
+        app: students-api
+    spec:
+      containers:
+        - name: students-api
+          image: viswaprateek248/hubtry1:v1
+          ports:
+            - containerPort: 5000
