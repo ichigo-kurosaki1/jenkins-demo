@@ -2,22 +2,38 @@ pipeline {
     agent any
 
     stages {
+
+        stage('Checkout from GitHub') {
+            steps {
+                echo "Code cloned successfully."
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                bat "pip install -r requirements.txt"
+                sh "pip install --user -r requirements.txt"
             }
         }
 
         stage('Build') {
             steps {
-                bat "python -m py_compile app.py"
+                sh "python -m py_compile app.py"
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat "pytest -q"
+                sh "pytest -q"
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Build and tests succeeded!"
+        }
+        failure {
+            echo "Build failed!"
         }
     }
 }
